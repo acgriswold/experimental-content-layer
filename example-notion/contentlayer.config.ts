@@ -1,15 +1,35 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+// contentlayer.config.js
 
-export const Post = defineDocumentType(() => ({
+import { makeSource, defineDatabase } from 'contentlayer-source-notion'
+import * as notion from '@notionhq/client'
+
+const client = new notion.Client({ auth: process.env.NOTION_TOKEN })
+
+export const Post = defineDatabase(() => ({
   name: 'Post',
-  filePathPattern: `**/*.mdx`,
-  fields: {
-    title: { type: 'string', required: true },
-    date: { type: 'date', required: true },
+  databaseId: process.env.NOTION_DB ?? "",
+  query: {
+    filter: {
+      property: 'Status',
+      status: {
+        equals: 'Published',
+      },
+    },
+  },
+  properties: {
+    date: {
+      name: 'Created time',
+    },
   },
   computedFields: {
-    url: { type: 'string', resolve: (post) => `/posts/${post._raw.flattenedPath}` },
+    url: {
+      type: 'string',
+      resolve: (post) => `/posts/${post._id}`,
+    },
   },
 }))
 
-export default makeSource({ contentDirPath: 'posts', documentTypes: [Post] })
+export default makeSource({
+  client,
+  databaseTypes: [Post],
+})
