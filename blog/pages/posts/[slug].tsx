@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
+import Head from 'next/head'
+
 import Container from '../../components/container'
 import PostBody from '../../components/post-body'
 import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import Layout from '../../components/layout'
-import { getPostBySlug, getAllPosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
-import Head from 'next/head'
 import { CMS_NAME } from '../../lib/constants'
-import markdownToHtml from '../../lib/markdownToHtml'
-import type PostType from '../../interfaces/post'
+
+import { allPosts, type Post as PostType } from 'contentlayer/generated'
 
 type Props = {
   post: PostType
@@ -21,7 +21,7 @@ type Props = {
 export default function Post({ post, morePosts, preview }: Props) {
   const router = useRouter()
   const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`
-  if (!router.isFallback && !post?.slug) {
+  if (!router.isFallback && !post?._raw.flattenedPath) {
     return <ErrorPage statusCode={404} />
   }
   return (
@@ -35,7 +35,7 @@ export default function Post({ post, morePosts, preview }: Props) {
             <article className="mb-32">
               <Head>
                 <title>{title}</title>
-                <meta property="og:image" content={post.ogImage.url} />
+                <meta property="og:image" content={post.ogImage} />
               </Head>
               <PostHeader
                 title={post.title}
@@ -43,7 +43,7 @@ export default function Post({ post, morePosts, preview }: Props) {
                 date={post.date}
                 author={post.author}
               />
-              <PostBody content={post.content} />
+              <PostBody content={post.body.html} />
             </article>
           </>
         )}
@@ -59,35 +59,22 @@ type Params = {
 }
 
 export async function getStaticProps({ params }: Params) {
-  const post = getPostBySlug(params.slug, [
-    'title',
-    'date',
-    'slug',
-    'author',
-    'content',
-    'ogImage',
-    'coverImage',
-  ])
-  const content = await markdownToHtml(post.content || '')
+  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug)
+  if (!post) throw new Error(`Post not found for slug: ${params.slug}`)
 
   return {
     props: {
-      post: {
-        ...post,
-        content,
-      },
+      post,
     },
   }
 }
 
 export async function getStaticPaths() {
-  const posts = getAllPosts(['slug'])
-
   return {
-    paths: posts.map((post) => {
+    paths: allPosts.map((post) => {
       return {
         params: {
-          slug: post.slug,
+          slug: post._raw.flattenedPath,
         },
       }
     }),

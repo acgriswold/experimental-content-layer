@@ -3,10 +3,12 @@ import MoreStories from '../components/more-stories'
 import HeroPost from '../components/hero-post'
 import Intro from '../components/intro'
 import Layout from '../components/layout'
-import { getAllPosts } from '../lib/api'
+
+import { allPosts, type Post } from 'contentlayer/generated'
+
 import Head from 'next/head'
 import { CMS_NAME } from '../lib/constants'
-import Post from '../interfaces/post'
+import { compareDesc } from 'date-fns'
 
 type Props = {
   allPosts: Post[]
@@ -29,7 +31,7 @@ export default function Index({ allPosts }: Props) {
               coverImage={heroPost.coverImage}
               date={heroPost.date}
               author={heroPost.author}
-              slug={heroPost.slug}
+              slug={heroPost._raw.flattenedPath}
               excerpt={heroPost.excerpt}
             />
           )}
@@ -41,16 +43,9 @@ export default function Index({ allPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const allPosts = getAllPosts([
-    'title',
-    'date',
-    'slug',
-    'author',
-    'coverImage',
-    'excerpt',
-  ])
+  const posts = allPosts.sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
 
   return {
-    props: { allPosts },
+    props: { allPosts: posts },
   }
 }
