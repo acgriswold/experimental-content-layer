@@ -1,0 +1,124 @@
+---
+title: 'Typescript Tips and Tricks'
+excerpt: TypeScript is an open-source programming language that has taken over as the standard for starting any JavaScript-based project. It adds optional static typing and class-based object-oriented programming to the language. I've started compiling a collection of tips and interesting usecases of this language to keep me inspired before dropping it's seemingly insurmountable practices.
+coverImage: '/assets/blog/typescript-tips-and-tricks/ts.png'
+date: '2023-09-19T05:35:07.322Z'
+author:
+  name: '@Adam'
+  picture: '/assets/blog/authors/at-adam.png'
+ogImage: '/assets/blog/typescript-tips-and-tricks/ts.png'
+---
+
+## Introduction
+
+TypeScript is an open-source programming language that has taken over as the standard for starting any JavaScript-based project. It adds optional static typing and class-based object-oriented programming to the language. I've started compiling a collection of tips and interesting usecases of this language to keep me inspired before dropping it's seemingly insurmountable practices.
+
+## The Basics
+
+### Types
+
+Types are crucial when learning TypeScript and allows developers to specify the data types of variables, function parameters, and return types. This can help catch before releasing them to production.
+
+For example.
+
+```TypeScript
+    type Links = {
+        portfolio?: string,
+        github?: string,
+        linkedin?: string
+    }
+
+    type Author = {
+        name: string,
+        age: number,
+        meta: Links
+    }
+```
+
+### Interfaces
+
+Interfaces are used to define the structure of an object. They specify the names and types of the object’s properties and can be used to enforce consistency across multiple objects.
+
+For example.
+
+```TypeScript
+    interface Person { name: string; age: number; }
+```
+
+This defines an interface for a `Person` object with a `name` property of type `string` and an `age` property of type `number`.
+
+### Enums
+
+Enums are a way to define a set of named values. They can improve code readability and help catch errors.
+
+For example.
+
+```TypeScript
+    enum Action {
+        Default,
+        Stationary,
+        Transfer
+    }
+```
+
+### Classes
+
+Classes allow develoeprs to define blueprints for objects that all share the same properties and methods.
+
+For example.
+
+```TypeScript
+    class Animal {
+        name: string,
+        constructor(name: string) {
+            this.name = name
+        }
+    }
+```
+
+### Generics
+
+Generics are used to create repeatable patterns that are not concerned with a single type. This create type safe code while allowing for better flexibility with the data used.
+
+For example.
+
+```TypeScript
+    function Wrapper<T>(arg: T): () => T {
+        return () => arg;
+    }
+```
+
+### Unions and Intersections
+
+Union types allow for the combination of two or more data types into one. This can be useful when a function or variable can accept multiple types of data.
+
+For example.
+
+```TypeScript
+
+```
+
+## Examples
+
+### Utility Types
+
+Read more about (utility types here)[https://www.typescriptlang.org/docs/handbook/utility-types.html]
+
+- Readonly<Type>
+- Omit<Type, Keys>
+
+### Keys
+
+```Typescript
+function getObjectProps<Obj, Key extends keyof Obj>(obj: Obj, key: Key): Obj[Key] {
+    return obj[key]
+}
+
+
+const user = {
+    name: "at-adam",
+    site: "https://google.com"
+}
+
+getObjectProps(user, "site") // Argument enforced to be "name" | "site"
+```
