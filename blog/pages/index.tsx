@@ -7,8 +7,9 @@ import Layout from '../components/layout'
 import { allPosts, type Post } from 'contentlayer/generated'
 
 import Head from 'next/head'
-import { CMS_NAME } from '../lib/constants'
 import { compareDesc } from 'date-fns'
+
+import { siteConfig } from 'config/config'
 
 type Props = {
   allPosts: Post[]
@@ -21,7 +22,7 @@ export default function Index({ allPosts }: Props) {
     <>
       <Layout>
         <Head>
-          <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+          <title>{siteConfig.title}</title>
         </Head>
         <Container>
           <Intro />

@@ -8,7 +8,8 @@ import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import Layout from '../../components/layout'
 import PostTitle from '../../components/post-title'
-import { CMS_NAME } from '../../lib/constants'
+
+import { siteConfig } from 'config/config'
 
 import { allPosts, type Post as PostType } from 'contentlayer/generated'
 
@@ -20,7 +21,7 @@ type Props = {
 
 export default function Post({ post, morePosts, preview }: Props) {
   const router = useRouter()
-  const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`
+  const title = `${post.title} | ${siteConfig.title}`
   if (!router.isFallback && !post?._raw.flattenedPath) {
     return <ErrorPage statusCode={404} />
   }
