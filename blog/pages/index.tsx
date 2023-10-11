@@ -32,7 +32,7 @@ export default function Index({ allPosts }: Props) {
               coverImage={heroPost.coverImage}
               date={heroPost.date}
               author={heroPost.author}
-              slug={heroPost._raw.flattenedPath}
+              full_slug={heroPost.url}
               excerpt={heroPost.excerpt}
             />
           )}
