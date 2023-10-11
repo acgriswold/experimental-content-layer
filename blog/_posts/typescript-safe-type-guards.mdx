@@ -1,0 +1,38 @@
+---
+title: 'Typescript - Safe Type Guards'
+excerpt: The power of typescript is undenyable, but user-defined type guards lead to unpredictable issues.
+coverImage: '/assets/blog/typescript-safe-type-guards/ts-logo.avif'
+date: '2023-10-11T05:35:07.322Z'
+author:
+  name: '@Adam'
+  picture: '/assets/blog/authors/at-adam.png'
+ogImage: '/assets/blog/typescript-tips-and-tricks/ts.png'
+---
+
+## TL;DR
+
+This boilerplate code powers developers to ensure type safety without potential type missmatches.
+
+```ts
+// Helper method provides a safer way to narrow the type.
+export const is = <T, TParent extends T>(fn: (t: T) => TParent | undefined) => {
+    return (t: T): t is TParent => typeof fn(t) !== "undefined";
+}
+
+// Can't get away from a classic 'foo | bar' example
+export const isFoo = is<Foo, Bar>(
+    foo => foo._tag === "Foo" ? foo : undefined
+)
+```
+
+## What is a type guard?
+
+A standard type _**User-Defined Type Guard (UDTG)**_ allows too much flexibility when "enforcing" types.  Look at the code example below.
+
+```ts
+const isBurger = (food: Food): food is Burger => food._tag === "Hotdog";
+```
+
+Notice the issue?  We are checking for `_tag === "Hotdog"`, leading to potential run time errors.
+
+_[Read more from this excellent post by Thomas Lefebvre](https://unsplash.com/blog/user-defined-type-guards-not-safe/)_

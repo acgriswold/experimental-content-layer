@@ -21,7 +21,7 @@ Types are crucial when learning TypeScript and allows developers to specify the 
 
 For example.
 
-```TypeScript
+```ts
     type Links = {
         portfolio?: string,
         github?: string,
@@ -41,7 +41,7 @@ Interfaces are used to define the structure of an object. They specify the names
 
 For example.
 
-```TypeScript
+```ts
     interface Person { name: string; age: number; }
 ```
 
@@ -53,7 +53,7 @@ Enums are a way to define a set of named values. They can improve code readabili
 
 For example.
 
-```TypeScript
+```ts
     enum Action {
         Default,
         Stationary,
@@ -67,7 +67,7 @@ Classes allow develoeprs to define blueprints for objects that all share the sam
 
 For example.
 
-```TypeScript
+```ts
     class Animal {
         name: string,
         constructor(name: string) {
@@ -82,7 +82,7 @@ Generics are used to create repeatable patterns that are not concerned with a si
 
 For example.
 
-```TypeScript
+```ts
     function Wrapper<T>(arg: T): () => T {
         return () => arg;
     }
@@ -94,7 +94,7 @@ Union types allow for the combination of two or more data types into one. This c
 
 For example.
 
-```TypeScript
+```ts
 
 ```
 
@@ -109,16 +109,16 @@ Read more about (utility types here)[https://www.typescriptlang.org/docs/handboo
 
 ### Keys
 
-```Typescript
-function getObjectProps<Obj, Key extends keyof Obj>(obj: Obj, key: Key): Obj[Key] {
-    return obj[key]
-}
+```ts
+    function getObjectProps<Obj, Key extends keyof Obj>(obj: Obj, key: Key): Obj[Key] {
+        return obj[key]
+    }
 
 
-const user = {
-    name: "at-adam",
-    site: "https://google.com"
-}
+    const user = {
+        name: "at-adam",
+        site: "https://google.com"
+    }
 
-getObjectProps(user, "site") // Argument enforced to be "name" | "site"
+    getObjectProps(user, "site") // Argument enforced to be "name" | "site"
 ```
