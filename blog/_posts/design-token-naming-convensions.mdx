@@ -1,0 +1,52 @@
+---
+title: 'Design token naming convensions.'
+excerpt: Design tokens.
+coverImage: ''
+date: '2023-10-12T08:35:07.322Z'
+author:
+  name: '@Adam'
+  picture: '/assets/blog/authors/at-adam.png'
+ogImage: ''
+---
+
+## References
+[Go read this link for right now before writing](https://medium.com/eightshapes-llc/naming-tokens-in-design-systems-9e86c7444676)
+
+
+## Concept
+Design tokens have become the foundation design systems and the building blocks of reusable and maintainable visual styles.
+Legible and digestible names increase in demained to improve and sustain a team's shared understanding whil transitions through
+design, code, and other disciplinary handoffs.
+
+### Breakdown
+Names should be all of the following
+
+- Legible
+- Quickly Recognizable
+- Purposeful
+
+
+### Pattern
+Token naming is hard. Building a token schema breaks down the need for individuality when naming tokens, 
+leading to a more global understanding of the task.
+
+Within my team, we have broken down our naming to its bare `component`, `category`, `property`, `attribute`, 
+`relationship`, and `state` -- following that same order.  `System` is prepended to all tokens for clarity.
+
+For example `$global-color-neutral-42` token combines four levels -- _namespace or system_ (in this example, `global` is 
+the parent design system), _category_, _varient_, and _scale_.
+
+![token naming work flow](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*QW0vwniEYOyv1dRzGdhfSQ.png)
+
+
+- `Base` levels as a token’s backbone that combine category (for example, color), concept (action) and property (size).
+- `Modifier` levels to refer to one or more of variant (primary), state (hover), scale (100), and mode (on-dark).
+- `Object` levels to refer to a component (button), element within a component (left-icon), or component group (forms).
+- `Namespace` levels combining any (or all, in extreme cases!) of system (esds), theme (ocean or subbrand), or domain (retail).
+
+![differences in naming convensions between companies](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*TJnlrM52KCT0alsgKPgGkg.png)
+
+
+
+## Live tokens
+[Shopify polaris](https://github.com/Shopify/polaris-tokens)
