@@ -98,6 +98,37 @@ For example.
 
 ```
 
+
+
+## As Const!!
+As const is powerful and ensures that none of the attributes (even when nested) can be changed. Combine this with
+typescripts ability to grab keys and types, you can dynimcally generate union values to ensure your source of
+truth never changes.
+
+
+```ts
+const routes = {
+  home: "/",
+  admin: "/admin",
+  user: "/users",
+} as const
+
+
+// "home" | "admin" | "user"
+type RouteKeys = keyof typeof routes
+
+// "/" | "admin" | "user"
+type Route = (typeof routes)[RouteKeys]
+
+const goToRoute = (route: Route) => {
+  // ... truncated for example
+}
+
+goToRoute(/** "/" | "admin" | "user" */)
+```
+
+
+
 ## Examples
 
 ### Utility Types
