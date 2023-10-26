@@ -22,17 +22,17 @@ Types are crucial when learning TypeScript and allows developers to specify the 
 For example.
 
 ```ts
-    type Links = {
-        portfolio?: string,
-        github?: string,
-        linkedin?: string
-    }
+type Links = {
+    portfolio?: string,
+    github?: string,
+    linkedin?: string
+}
 
-    type Author = {
-        name: string,
-        age: number,
-        meta: Links
-    }
+type Author = {
+    name: string,
+    age: number,
+    meta: Links
+}
 ```
 
 ### Interfaces
@@ -42,7 +42,7 @@ Interfaces are used to define the structure of an object. They specify the names
 For example.
 
 ```ts
-    interface Person { name: string; age: number; }
+interface Person { name: string; age: number; }
 ```
 
 This defines an interface for a `Person` object with a `name` property of type `string` and an `age` property of type `number`.
@@ -54,11 +54,11 @@ Enums are a way to define a set of named values. They can improve code readabili
 For example.
 
 ```ts
-    enum Action {
-        Default,
-        Stationary,
-        Transfer
-    }
+enum Action {
+    Default,
+    Stationary,
+    Transfer
+}
 ```
 
 ### Classes
@@ -68,12 +68,12 @@ Classes allow develoeprs to define blueprints for objects that all share the sam
 For example.
 
 ```ts
-    class Animal {
-        name: string,
-        constructor(name: string) {
-            this.name = name
-        }
+class Animal {
+    name: string,
+    constructor(name: string) {
+        this.name = name
     }
+}
 ```
 
 ### Generics
@@ -83,9 +83,9 @@ Generics are used to create repeatable patterns that are not concerned with a si
 For example.
 
 ```ts
-    function Wrapper<T>(arg: T): () => T {
-        return () => arg;
-    }
+function Wrapper<T>(arg: T): () => T {
+    return () => arg;
+}
 ```
 
 ### Unions and Intersections
@@ -135,21 +135,21 @@ goToRoute(/** "/" | "admin" | "user" */)
 
 Read more about (utility types here)[https://www.typescriptlang.org/docs/handbook/utility-types.html]
 
-- Readonly<Type>
-- Omit<Type, Keys>
+- `Readonly<Type>`
+- `Omit<Type, Keys>`
 
 ### Keys
 
 ```ts
-    function getObjectProps<Obj, Key extends keyof Obj>(obj: Obj, key: Key): Obj[Key] {
-        return obj[key]
-    }
+function getObjectProps<Obj, Key extends keyof Obj>(obj: Obj, key: Key): Obj[Key] {
+    return obj[key]
+}
 
 
-    const user = {
-        name: "at-adam",
-        site: "https://google.com"
-    }
+const user = {
+    name: "at-adam",
+    site: "https://google.com"
+}
 
-    getObjectProps(user, "site") // Argument enforced to be "name" | "site"
+getObjectProps(user, "site") // Argument enforced to be "name" | "site"
 ```
