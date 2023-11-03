@@ -1,5 +1,5 @@
 ---
-title: 'Typescript - Safe Type Guards'
+title: 'Typescript - Safe Type Guards & Proxy'
 excerpt: The power of typescript is undenyable, but user-defined type guards lead to unpredictable issues.
 coverImage: '/assets/blog/typescript-safe-type-guards/ts-logo.avif'
 date: '2023-10-11T05:35:07.322Z'
@@ -36,3 +36,63 @@ const isBurger = (food: Food): food is Burger => food._tag === "Hotdog";
 Notice the issue?  We are checking for `_tag === "Hotdog"`, leading to potential run time errors.
 
 _[Read more from this excellent post by Thomas Lefebvre](https://unsplash.com/blog/user-defined-type-guards-not-safe/)_
+
+
+
+
+
+## Proxy
+
+When building complex systems, dynamic typed proxy objects can increase development output, ensure system safety,
+and extend logging capabilities for both errors and analytics.  Below is a simple example of creating proxies
+and adding better functionality for getting and setting properties
+
+```ts
+function createProxiedObject<T extends object>(obj: T): T {
+  const handler = {
+    set(obj: { [key: string]: any }, prop: string, value: any) {
+      console.log(`changed ${prop} from ${obj[prop]} to ${value}`);
+      obj[prop] = value;
+      return true;
+    },
+    get(obj: { [key: string]: any}, prop: string) {
+      console.log(`getting ${prop} from ${obj[prop]}`)
+      return obj[prop]
+    }
+  };
+
+  return new Proxy<T>(obj, handler);
+}
+
+const obj = { may: "object", june: "june" }
+type ObjType = typeof obj 
+
+const prox = createProxiedObject(obj)
+
+prox.june = "june"
+
+console.log(prox.june)
+console.log(prox.may)
+
+
+
+
+
+type Extended<T> = T & {
+  extended: string
+}
+
+const first = {first: "first"}
+const extendedFirst: Extended<typeof first> = {extended: "exteneded", first: "first"}
+
+function createExtendedFromFirst<T>(obj: T): Extended<T> {
+
+  return {
+    ...obj
+  } as Extended<T>
+}
+
+
+const ef = createExtendedFromFirst(first)
+console.log(ef)
+```
