@@ -122,3 +122,20 @@ const user = {
 
 getObjectProps(user, "site") // Argument enforced to be "name" | "site"
 ```
+
+
+
+
+## Infer & Recursive Types
+
+```ts
+type ExtractParamInternal<Path, NextPart> = Path extends `:${infer Param}` ? Record<Param, string> & NextPart : NextPart;
+
+type ExtractParam<Path> = Path extends `${infer Segment}/${infer Rest}`
+  ? ExtractParamInternal<Segment, ExtractParam<Rest>>
+  : ExtractParamInternal<Path, {}>
+
+type emptyParams = ExtractParam<"another/way/around">      // {}
+type pathParam = ExtractParam<"goto/:path">                // { path: string }
+type allowParam = ExtractParam<"goto/:path/allow/:allow">  // { path: string, allow: string }
+```
